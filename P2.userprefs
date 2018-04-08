@@ -1,0 +1,19 @@
+﻿<Properties StartupConfiguration="{6C66EAB3-AAAD-4C42-A2D9-A27589385BA4}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="P2/Models/ModelResultado.cs">
+    <Files>
+      <File FileName="P2/Models/dbconfig.cs" Line="45" Column="36" />
+      <File FileName="P2/Models/ModelResultado.cs" Line="19" Column="18" />
+      <File FileName="P2/Models/property.cs" Line="1" Column="1" />
+      <File FileName="P2/Views/Resultados/Create.cshtml" Line="165" Column="34" />
+      <File FileName="P2/Views/Resultados/Index.cshtml" Line="1" Column="1" />
+      <File FileName="P2/Controllers/ResultadosController.cs" Line="13" Column="9" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.P2 PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>

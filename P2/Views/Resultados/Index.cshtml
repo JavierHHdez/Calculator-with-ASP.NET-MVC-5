@@ -1,0 +1,42 @@
+﻿@model IEnumerable<P2.Models.property>
+@{
+    ViewBag.Title = "Index";
+
+}
+
+
+<h1>Index</h1>
+
+<div class="col-lg-12">
+    @Html.ActionLink("Calculadora", "Create", "Resultados", new { @class = "btn btn-primary pull-right" })
+</div>
+
+<div class="_table">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Número 1</th>
+                <th>Número 2</th>
+                <th>Operador</th>
+                <th>Resultado</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var value in Model)
+            {
+                <tr>
+                    <td>@value.id</td>
+                    <td>@value.num1</td>
+                    <td>@value.num2</td>
+                    <td>@value.operador</td>
+                    <td>@value.resultado</td>
+                    <td>@Html.ActionLink("Delete", "Delete", "Resultados", new { id = value.id }, new { onclick = "return confirm('¿Esta seguro de querer eliminar este registro?');" })</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+

@@ -1,0 +1,170 @@
+﻿@model P2.Models.property
+
+@{
+    ViewBag.Title = "Calculadora";
+}
+
+<h2>Calculadora</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.num1,"Primer Número", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.num1, new { htmlAttributes = new { @class = "form-control number" } })
+                @Html.ValidationMessageFor(model => model.num1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.num2,"Segundo Número", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.num2, new { htmlAttributes = new { @class = "form-control number" } })
+                @Html.ValidationMessageFor(model => model.num2, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.resultado,"Resultado", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.resultado, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.resultado, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="opciones" class="operator" id="suma" value="+">
+                        Suma
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="opciones" class="operator" id="resta" value="-">
+                        Resta
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="opciones" class="operator" id="multiplicacion" value="*">
+                        Multiplicación
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="opciones" class="operator" id="divicion" value="/">
+                        Divición
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" id="btnCalcular" value="Calcular" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script>
+
+	const Operator = {
+        suma: 'suma',
+        resta: 'resta',
+        multiplicacion: 'multiplicacion',
+        divicion: 'divicion'
+    }
+	
+    $(document).ready(function () {
+        
+        $("#resultado").attr('disabled', true);
+
+        $("#btnCalcular").on('click', function () {
+            if ($("input[type='radio'].operator").is(':checked')) {
+                var type = $("input[type='radio'].operator:checked").attr('id');
+                var operator = $("input[type='radio'].operator:checked").val();
+                calcular(type) == true ? save(operator) : false;
+            }
+        });
+
+        $(".operator").on('change', function () {
+            var type = $(this).attr('id');
+            var operator = $(this).val();
+            calcular(type) == true ? save(operator) : false;
+        });
+
+        $(".number").on('change', function () {
+            if ($("input[type='radio'].operator").is(':checked')) {
+                var type = $("input[type='radio'].operator:checked").attr('id');
+                var operator = $("input[type='radio'].operator:checked").val();
+                calcular(type) == true ? save(operator) : false;
+            }
+        });
+
+        $(".number").keyup(function () {
+            this.value = (this.value + '').replace(/[^0-9]/g, '');
+        });
+    });
+
+    function save(operator) {
+        var num1 = parseInt($("#num1").val());
+        var num2 = parseInt($("#num2").val());
+        var resultado = $("#resultado").val();
+        $.ajax({
+            type: "POST",
+            url: "/Resultados/Create",
+            data: { num1: num1, num2: num2, resultado: resultado, operador: operator },
+            success: function (response) {
+                alert(response);
+            }, error: function (res) {
+                console.log("Error : "+res);
+            }
+        });
+
+    }
+
+
+    function calcular(tipo) {
+
+	    var num1 = parseInt($("#num1").val());
+        var num2 = parseInt($("#num2").val());
+
+        var result = null;
+
+        switch (tipo) {
+                case Operator.suma:
+                    result = num1 + num2;
+                    break;
+                case Operator.resta:
+                    result = num1 - num2;
+                    break;
+                case Operator.multiplicacion:
+                    result = num1 * num2;
+                    break;
+                case Operator.divicion:
+                    result = num1 / num2;
+                    break;
+                default:
+                    throw new Error('No existe la operacion');
+        }
+
+        $("#resultado").val(isNaN(result) ? 0 : result);
+
+        return  result > 0 && result != null ? true : false;
+    }
+
+</script>
